@@ -1,0 +1,5 @@
+zip/
+__pycache__/
+
+*.py[cod]
+*.npy
