@@ -1,5 +1,10 @@
 zip/
 __pycache__/
+.ipynb_checkpoints/
+misc/
+.idea/
+lecture_slide/
 
 *.py[cod]
 *.npy
+*.pickle
