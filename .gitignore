@@ -4,6 +4,8 @@ __pycache__/
 misc/
 .idea/
 lecture_slide/
+data/
+.pytest_cache/
 
 *.py[cod]
 *.npy
