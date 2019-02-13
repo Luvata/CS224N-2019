@@ -23,8 +23,8 @@
 | [ROOT, parsed, sentence]              |               [correctly]                  |this <- sentence   | Left-Arc   |6   |
 | [ROOT, parsed]                        |               [correctly]                  |parsed -> sentence | Right-Arc  |7   |
 | [ROOT, parsed, correctly]             |               []                           |                   | Shift      |8   |
-| [ROOT, parsed]                        |               []                           |parsed -> correctly| Shift      |9   |
-| [ROOT]                                |               []                           |Root -> parsed     | Shift      |10  |
+| [ROOT, parsed]                        |               []                           |parsed -> correctly| Right-Arc  |9   |
+| [ROOT]                                |               []                           |Root -> parsed     | Right-Arc  |10  |
 
 #### B. Number of steps
 
