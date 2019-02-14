@@ -1,13 +1,24 @@
 ## Assignment 3: Dependency parsing
 
 
-### Prob 1. Machine learning and Neural Networks [TODO]
+### Prob 1. Machine learning and Neural Networks 
 #### A. Adam optimizer
-- i. Momentum
-- ii. Adaptive learning rate
+
+Reference :
+  1. [Optimizing gradient descent - Sebastian Ruder](http://ruder.io/optimizing-gradient-descent/index.html)
+  2. [CS231N - Neural networks 3](http://cs231n.github.io/neural-networks-3/)
+
+- i. Momentum :
+    - The momentum term **increases** for dimensions whose **gradients point in the same directions** and reduces updates for dimensions whose gradients change directions
+    - Gain faster convergence and reduced oscillation
+- ii. Adaptive learning rate:
+    - Used to **normalize** the parameter update step, element wise
+    - Weights that receive high gradients will have their effective learning rate reduced
+    - Weights that receive small / infrequent updates will have effective learning rate increased
 #### B. Dropout
-- $\gamma$ equal ?
-- Dropout in training but not in testing ?
+- $\gamma$ = 1/p for scaling output on training (Not sure)
+- Dropout in training but not in testing :
+    - At test time all neurons see all their inputs, so we want the outputs of neurons at test time to be identical to their expected outputs at training time
 
 ### Prob 2. Neural Transition-Based dependency parsing
 #### A. Parsing a sentence
@@ -35,10 +46,29 @@ A sentence contain N words will be parsed in 2N steps:
  - So total removed words in Stack is N, which mean we need N "Arc" operations
  - Total steps: N (SHIFT) + N (Arc) = 2N
 
-#### F. Four types of parsing error examples [TODO]:
+#### F. Four types of parsing error examples (Need contribution):
 
-- Prepositional Phrase Attachment Error: "Moscow sent troops into Afghanistan"
-- Verb Phrase Attachment Error: "Leaving the store unattended, I went
-outside to watch the parade, the phrase leaving the store unattended"
-- Modifier Attachment Error: "I am extremely short"
-- Coordination Attachment Error: "Would you like brown rice or garlic naan?"
+- Prepositional Phrase Attachment Error
+- Verb Phrase Attachment Error
+- Modifier Attachment Error
+- Coordination Attachment Error
+
+#### EVALUATION:
+After train, model has 88.46 UAS on DEV set and 88.85 UAS on Test set
+#### TAKE AWAY:
+- Feature extraction for Neural Dependency Parsing: 
+  - Indices of top *n* words in stacks and buffers, and its children
+  - Embedding of words, POS tags and dependency relations can be trained together 
+- Adaptive learning rate affects the generalization of model
+- Pytorch
+```python
+# Save and load weight
+torch.save(model.state_dict(), path)
+model.load_state_dict(torch.load(path))
+
+## Drop out layer
+model.train() # put this before train to enable train mode : apply drop out to model
+model.eval() # don't apply drop out when evaluate
+
+## nn.Embedding take input as vector of index, return embedding vectors
+```

@@ -43,6 +43,7 @@ class Parser(object):
     """Contains everything needed for transition-based dependency parsing except for the model"""
 
     def __init__(self, dataset):
+        # read all label (dependency) with head = 0 : root_label
         root_labels = list([l for ex in dataset
                            for (h, l) in zip(ex['head'], ex['label']) if h == 0])
         counter = Counter(root_labels)
@@ -50,10 +51,11 @@ class Parser(object):
             logging.info('Warning: more than one root label')
             logging.info(counter)
         self.root_label = counter.most_common()[0][0]
+        # dependencies
         deprel = [self.root_label] + list(set([w for ex in dataset
                                                for w in ex['label']
                                                if w != self.root_label]))
-        tok2id = {L_PREFIX + l: i for (i, l) in enumerate(deprel)}
+        tok2id = {L_PREFIX + l: i for (i, l) in enumerate(deprel)} # token to index of dependency relation
         tok2id[L_PREFIX + NULL] = self.L_NULL = len(tok2id)
 
         config = Config()
@@ -77,6 +79,7 @@ class Parser(object):
         # logging.info('Build dictionary for part-of-speech tags.')
         tok2id.update(build_dict([P_PREFIX + w for ex in dataset for w in ex['pos']],
                                   offset=len(tok2id)))
+        # Add 3 new POS tags : UNK, NULL, ROOT
         tok2id[P_PREFIX + UNK] = self.P_UNK = len(tok2id)
         tok2id[P_PREFIX + NULL] = self.P_NULL = len(tok2id)
         tok2id[P_PREFIX + ROOT] = self.P_ROOT = len(tok2id)
@@ -84,14 +87,23 @@ class Parser(object):
         # logging.info('Build dictionary for words.')
         tok2id.update(build_dict([w for ex in dataset for w in ex['word']],
                                   offset=len(tok2id)))
+        # Add 3 new word
         tok2id[UNK] = self.UNK = len(tok2id)
         tok2id[NULL] = self.NULL = len(tok2id)
         tok2id[ROOT] = self.ROOT = len(tok2id)
 
-        self.tok2id = tok2id
+        self.tok2id = tok2id # a dictionary with dependency relation, POS_tag and word
         self.id2tok = {v: k for (k, v) in tok2id.items()}
 
+        ## 18 features = 6 + 8 + 4 (if no word, insert NULL)
+        ##      - top 3 words on the stack and buffer (6)
+        ##      - first and second leftmost / right most children of the top two words on the stack (4 children * 2 words = 8 )
+        ##      - The left most of left most / right most of right most children of the top two words on the stack ( 2 children (ll, rr) * 2 words = 4 )
+
         self.n_features = 18 + (18 if config.use_pos else 0) + (12 if config.use_dep else 0)
+        # if take into account pos tag, we have 18 more features of POS tag for 18 words above
+        # same for dependency relation
+
         self.n_tokens = len(tok2id)
 
     def vectorize(self, examples):
@@ -288,6 +300,8 @@ class ModelWrapper(object):
 
 
 def read_conll(in_file, lowercase=False, max_example=None):
+    """ Read .conll file, return list of dict {word: [list_word in sentence], pos: [list_pos], head : [list_index], label: [list_label]}
+    """
     examples = []
     with open(in_file) as f:
         word, pos, head, label = [], [], [], []
