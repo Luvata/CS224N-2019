@@ -12,14 +12,14 @@ Note: Heavily inspired by the https://github.com/pcyin/pytorch_nmt repository
   - 1I : After training, model has Corpus BLEU: 22.51906462908753
 
   - 1J : Advantage and disadvantage of attention variants
-    - $$e_{t, i}$$ is the similarity score of decoder time-step **t** w.r.t encoder time-step **i**
+    - $e_{t, i}$ is the similarity score of decoder time-step **t** w.r.t encoder time-step **i**
     - Dot and Multiplicative attention was introduced by (Luong et al., 2015). Dot product attention directly measures
     attention with dot (s_t and h_i must have same dimension), whereas in Multiplicative attention, *W* was introduced as
     a weighted similarity for a more general notion 
     - Reference : http://ruder.io/deep-learning-nlp-best-practices/index.html#attention:
     - > Additive and multiplicative attention are similar in complexity, although multiplicative attention is faster 
     and more space-efficient in practice as it can be implemented more efficiently using matrix multiplication
-    - > Both variants perform similar for small dimensionality $$d_h$$ of the decoder states, 
+    - > Both variants perform similar for small dimensionality $d_h$ of the decoder states, 
     but additive attention performs better for larger dimensions.
     
 
