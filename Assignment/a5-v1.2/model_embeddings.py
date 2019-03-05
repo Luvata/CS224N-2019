@@ -39,7 +39,7 @@ class ModelEmbeddings(nn.Module):
         # self.embeddings = nn.Embedding(len(vocab.src), embed_size, padding_idx=pad_token_idx)
         ## End A4 code
 
-        self.word_embed_size = embed_size
+        self.embed_size = embed_size
         self.char_embed_size = 50
         self.max_word_len    = 21
         self.dropout_rate    = 0.3
@@ -89,7 +89,7 @@ class ModelEmbeddings(nn.Module):
         x_conv    = self.CNN(char_embeddings) # bb, word_embed_size
         x_highway = self.Highway(x_conv)
         output    = self.dropout(x_highway) # bb, word_embed
-        output    = output.view(sent_len, batch_size, self.word_embed_size)
+        output    = output.view(sent_len, batch_size, self.embed_size)
         return output
         ### YOUR CODE HERE for part 1j
 

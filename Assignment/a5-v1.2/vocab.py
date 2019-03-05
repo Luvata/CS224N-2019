@@ -167,8 +167,8 @@ class VocabEntry(object):
         ###     Connect `words2charindices()` and `pad_sents_char()` which you've defined in 
         ###     previous parts
 
-        indices   = pad_sents_char(self.words2charindices(sents)) # (batch_size, max_sentence_length, max_word_length)
-        sents_var = torch.FloatTensor(indices).permute(1, 0, 2).to(device) # (max_sent_length, batch_size, max_word_len)
+        indices   = pad_sents_char(self.words2charindices(sents), self['<pad>']) # (batch_size, max_sentence_length, max_word_length)
+        sents_var = torch.LongTensor(indices).permute(1, 0, 2).to(device) # (max_sent_length, batch_size, max_word_len)
         return sents_var
         ### END YOUR CODE
 
@@ -182,7 +182,7 @@ class VocabEntry(object):
         @returns sents_var: tensor of (max_sentence_length, batch_size)
         """
         word_ids = self.words2indices(sents)
-        sents_t = pad_sents_char(word_ids, self['<pad>'])
+        sents_t = pad_sents(word_ids, self['<pad>'])
         sents_var = torch.tensor(sents_t, dtype=torch.long, device=device)
         return torch.t(sents_var)
 

@@ -91,12 +91,19 @@ class NMT(nn.Module):
         ### TODO: 
         ###     Modify the code lines above as needed to fetch the character-level tensor 
         ###     to feed into encode() and decode(). You should:
-        ###     - Keep `target_padded` from A4 code above for predictions
-        ###     - Add `source_padded_chars` for character level padded encodings for source
+        ###     - Keep `target_padded` from A4 code above for predictions -> It's a list of word indices
+        ###     - Add `source_padded_chars` for character level padded encodings for source -> Char padded indices
         ###     - Add `target_padded_chars` for character level padded encodings for target
         ###     - Modify calls to encode() and decode() to use the character level encodings
 
- 
+        source_padded_chars = self.vocab.src.to_input_tensor_char(source, device=self.device) # (src_len, b, max_w_len)
+        target_padded_chars = self.vocab.tgt.to_input_tensor_char(target, device=self.device) # (tgt_len, b, max_w_len)
+        target_padded       =  self.vocab.tgt.to_input_tensor(target, device=self.device) # (tgt_len, b)
+
+        enc_hiddens, dec_init_state = self.encode(source_padded_chars, source_lengths)
+        enc_masks = self.generate_sent_masks(enc_hiddens, source_lengths)
+        combined_outputs = self.decode(enc_hiddens, enc_masks, dec_init_state, target_padded_chars)
+
         ### END YOUR CODE
 
         P = F.log_softmax(self.target_vocab_projection(combined_outputs), dim=-1)
@@ -112,8 +119,9 @@ class NMT(nn.Module):
 
         if self.charDecoder is not None:
             max_word_len = target_padded_chars.shape[-1]
-
+            # remove start of word character ?
             target_words = target_padded[1:].contiguous().view(-1)
+            # view : (l, b, max_w_len) -> (l * b, max_w_len)
             target_chars = target_padded_chars[1:].view(-1, max_word_len)
             target_outputs = combined_outputs.view(-1, 256)
     
