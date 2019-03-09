@@ -28,13 +28,14 @@ from highway import Highway
 from char_decoder import CharDecoder
 from vocab import Vocab
 
-BATCH_SIZE = 5
-EMBED_SIZE = 3
-HIDDEN_SIZE = 3
-DROPOUT_RATE = 0.0
-NUM_FILTER = 4
-KERNEl_LEN = 3
-MAX_WORD_LEN=8
+BATCH_SIZE    = 5
+EMBED_SIZE    = 3
+HIDDEN_SIZE   = 3
+DROPOUT_RATE  = 0.0
+NUM_FILTER    = 4
+KERNEl_SIZE   = 3
+MAX_WORD_LEN  = 8
+
 
 def reinitialize_layers(model):
     """ Reinitialize the Layer Weights for Sanity Checks.
@@ -78,7 +79,7 @@ def question_1h_generate_data():
 
 def question_1h_sanity_check(highway):
     """
-    Sanity check for highway.py, basic shape check and bias check
+    Sanity check for highway.py, basic shape check and forward pass check
     """
     reinitialize_layers(highway) #
     # print("Running shape check")
@@ -89,16 +90,21 @@ def question_1h_sanity_check(highway):
     with torch.no_grad():
         outp = highway(inpt)
 
-    outp_expected_size = [BATCH_SIZE, EMBED_SIZE]
-
+    outp_expected_size = (BATCH_SIZE, EMBED_SIZE)
+    assert (outp.numpy().shape == outp_expected_size), \
+      "Highway output shape is incorrect it should be:\n{} but is:\n{}".format(outp.numpy().shape, outp_expected_size)
     assert (np.allclose(outp.numpy(), outp_expected.numpy())), \
         "Highway output is incorrect: it should be:\n {} but is:\n{}".format(outp_expected, outp)
     # print("Passed all tests :D")
 
 def question_1g_generate_data():
+    # pytorch uses cross relation, not convolution for 1d conv
+
     pass
 
+
 def question_1g_sanity_check(CNN):
+
     pass
 
 def main():
@@ -137,7 +143,7 @@ def main():
         char_embed_size=EMBED_SIZE,
         num_filters=NUM_FILTER,
         max_word_length=MAX_WORD_LEN,
-        KERNEl_LEN=KERNEl_LEN
+        kernel_size=KERNEl_SIZE
     )
 
     if args['highway']:

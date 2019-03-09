@@ -122,7 +122,7 @@ class NMT(nn.Module):
             # remove start of word character ?
             target_words = target_padded[1:].contiguous().view(-1)
             # view : (l, b, max_w_len) -> (l * b, max_w_len)
-            target_chars = target_padded_chars[1:].view(-1, max_word_len)
+            target_chars = target_padded_chars[1:].contiguous().view(-1, max_word_len)
             target_outputs = combined_outputs.view(-1, 256)
     
             target_chars_oov = target_chars #torch.index_select(target_chars, dim=0, index=oovIndices)
