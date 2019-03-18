@@ -82,8 +82,13 @@ class CharDecoder(nn.Module):
 
         target = char_sequence[1:].contiguous().view(-1) # not get first character
         score  = score.view(-1, score.shape[-1])
-        loss   = nn.CrossEntropyLoss() # take input : (N, C), target (N)
 
+        loss   = nn.CrossEntropyLoss(
+            reduction= "sum", # Equation #15: When compute loss_char_dec, we take the sum, not average
+            ignore_index=self.target_vocab.char2id['<pad>'] # not take into account pad character when compute loss
+        )
+
+        # take input : (N, C), target (N)
         return loss(score, target)
 
         ### END YOUR CODE
