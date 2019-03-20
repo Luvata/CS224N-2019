@@ -116,18 +116,18 @@ class CharDecoder(nn.Module):
         start_index = self.target_vocab.start_of_word
         end_index   = self.target_vocab.end_of_word
 
-        input = torch.LongTensor([start_index for _ in range(b)], device=device).unsqueeze(0)
+        input = torch.tensor([start_index for _ in range(b)], device=device).unsqueeze(0)
         decodeTuple = [["", False] for _ in range(b)]
 
         for step in range(max_length):
             score, dec_hidden = self.forward(input, dec_hidden) # score shape (1, b, V)
             input = score.argmax(dim=2) # (1, b)
 
-            for str_index, char_index in enumerate(input.data.squeeze(0).numpy()):
+            for str_index, char_index in enumerate(input.detach().squeeze(0)):
                 # if not reach end index:
                 if not decodeTuple[str_index][1]:
                     if char_index != end_index:
-                        decodeTuple[str_index][0] += self.target_vocab.id2char[char_index]
+                        decodeTuple[str_index][0] += self.target_vocab.id2char[char_index.item()]
                     else:
                         decodeTuple[str_index][1] = True
 
