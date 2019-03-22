@@ -2,6 +2,12 @@
 
 My solutions for CS224N 2019
 
+## Course links
+- Course page [CS224N](http://cs224n.stanford.edu)
+- Lecture videos [Youtube](https://www.youtube.com/watch?v=8rXD5-xhemo&list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
+- [Stanford online hub](http://onlinehub.stanford.edu/cs224)
+
+## Misc
 - Install Chrome extention 
 [Text all the thing](https://chrome.google.com/webstore/detail/tex-all-the-things/cbimabofgmfdkicghcadidpemeenbffn)
 for better formula
