@@ -1,6 +1,6 @@
 # CS224N-2019
 
-*****Shiny new things**: I've already updated this solution for **2021** (Refactor NMT assignment & new QA assignment)
+**Shiny new things**: I've already updated this solution for **2021** (Refactor NMT assignment & new QA assignment)
 
 My solutions for CS224N 2019
 
