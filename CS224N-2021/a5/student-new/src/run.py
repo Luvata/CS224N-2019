@@ -81,7 +81,22 @@ if args.function == 'pretrain':
     #     warmup_tokens=512*20
     #     final_tokens=200*len(pretrain_dataset)*block_size
     #     num_workers=4
-    raise NotImplementedError
+
+    text = open(args.pretrain_corpus_path).read().strip() # MUST have strip here
+    char_corruption_pretrain_dataset = dataset.CharCorruptionDataset(text, block_size)
+    tconf = trainer.TrainerConfig(
+        max_epochs=650,
+        batch_size=128,
+        learning_rate=6e-3,
+        lr_decay=True,
+        warmup_tokens=512*20,
+        final_tokens=200*len(pretrain_dataset)*block_size,
+        num_workers=4
+    )
+    tconf.ckpt_path = args.writing_params_path
+    trainer = trainer.Trainer(model, char_corruption_pretrain_dataset, None, tconf)
+    trainer.train()
+
 elif args.function == 'finetune':
     assert args.writing_params_path is not None
     assert args.finetune_corpus_path is not None
@@ -113,9 +128,6 @@ elif args.function == 'finetune':
     #         warmup_tokens=512*20
     #         final_tokens=200*len(pretrain_dataset)*block_size
     #         num_workers=4
-
-
-
     text = open(args.finetune_corpus_path).read()
     finetune_dataset = dataset.NameDataset(pretrain_dataset, text)
     #     Hyperparameters for finetuning WITHOUT a pretrained model:
