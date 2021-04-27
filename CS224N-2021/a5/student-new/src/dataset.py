@@ -168,7 +168,47 @@ class CharCorruptionDataset(Dataset):
 
     def __getitem__(self, idx):
         # TODO [part e]: see spec above
-        raise NotImplementedError
+        """
+        def __getitem__(self, idx):
+            inp, oup = self.data[idx].split('\t')
+            x = inp + self.MASK_CHAR + oup + self.MASK_CHAR
+            x = x + self.PAD_CHAR*(self.block_size - len(x))
+            y = self.PAD_CHAR*(len(inp)-1) + x[len(inp):]
+            
+            x = x[:-1]
+            x = torch.tensor([self.stoi[c] for c in x], dtype=torch.long)
+            y = torch.tensor([self.stoi[c] for c in y], dtype=torch.long)
+            return x, y
+        """
+        # 0. Use the idx argument of __getitem__ to retrieve the element of self.data
+        # at the given index. We'll call the resulting data entry a document.
+        document = self.data[idx]
+        # 1. Randomly truncate the document to a length no less than 4 characters,
+        # and no more than int(self.block_size*7/8) characters.
+        truncate_len = random.randint(4, self.block_size * 7/8)
+        truncated_document = document[:truncate_len]
+        actual_len = len(truncated_document)
+
+        # 2. Now, break the (truncated) document into three substrings:
+        #     [prefix] [masked_content] [suffix]
+        start_idx = random.randint(1, actual_len - 2)
+        end_idx = random.randint(start_idx + 1, actual_len - 1)
+
+        prefix = truncated_document[:start_idx]
+        masked_content = truncated_document[start_idx:end_idx]
+        suffix = truncated_document[end_idx:]
+
+        # 3. Rearrange these substrings into the following form:
+        #     [prefix] MASK_CHAR [suffix] MASK_CHAR [masked_content] [pads]
+        x = prefix + self.MASK_CHAR + suffix  + self.MASK_CHAR + masked_content
+        x = x + self.PAD_CHAR * (self.block_size - len(x))
+
+        # 4, 5
+        y = x[1:]
+        x = x[:-1]
+        x = torch.tensor([self.stoi[c] for c in x], dtype=torch.long)
+        y = torch.tensor([self.stoi[c] for c in y], dtype=torch.long)
+        return x, y
 
 """
 Code under here is strictly for your debugging purposes; feel free to modify

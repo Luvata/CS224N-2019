@@ -12,6 +12,9 @@
     - Model's accuracy on dev set: `Correct: 8.0 out of 500.0: 1.6%`
     - `london_baseline`: `Correct: 25.0 out of 500.0: 5.0%`
 
-- [ ] e. Define aspan corruptionfunction for pretraining.
-- [ ] f. Pretrain, finetune, and make predictions
+- [x] e. Define a span corruption function for pretraining.
+    - In this question, you’ll implement a simplification that only masks out a 
+    single sequence of characters.
+
+- [x] f. Pretrain, finetune, and make predictions
 - [ ] g. Research! Write and try out thesynthesizervariant
