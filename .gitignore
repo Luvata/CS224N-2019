@@ -6,7 +6,7 @@ misc/
 lecture_slide/
 data/
 .pytest_cache/
-
 *.py[cod]
 *.npy
 *.pickle
+.DS_store
