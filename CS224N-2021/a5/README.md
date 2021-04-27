@@ -17,10 +17,10 @@
     single sequence of characters.
 
 - [x] f. Pretrain, finetune, and make predictions
-    - Accuracy on dev set: `Correct: 97.0 out of 500.0: 19.400000000000002%` 
+    - Accuracy on dev set: `Correct: 129.0 out of 500.0: 25.8%` 
 
 - [ ] g. Research! Write and try out the synthesizer variant
-    - Accuracy on dev set: `Correct: 122.0 out of 500.0: 24.4%`
+    - Accuracy on dev set: `Correct: 50.0 out of 500.0: 10.0%`
     - Why might the synthesizer self-attention not be able to do, in a single layer, what the key-query-value self-attention can do ?
         - [TODO]
 

@@ -95,6 +95,7 @@ class SynthesizerAttention(nn.Module):
 
         f1 = F.relu(self.w1(x).view(B, T, self.n_head, C // self.n_head)).transpose(1, 2) # B, nh, T, hs
         att = f1 @ self.w2 + self.b2 # B, nh, T, T
+        att = att[:, :, :T, :T] # fix so that it can still run if T < block_size, not sure if it's correct ?
 
         att = att.masked_fill(self.mask[:,:,:T,:T] == 0, -1e10) # todo: just use float('-inf') instead?
         att = F.softmax(att, dim=-1)
