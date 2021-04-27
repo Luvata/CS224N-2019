@@ -17,4 +17,13 @@
     single sequence of characters.
 
 - [x] f. Pretrain, finetune, and make predictions
-- [ ] g. Research! Write and try out thesynthesizervariant
+    - Accuracy on dev set: `Correct: 97.0 out of 500.0: 19.400000000000002%` 
+
+- [ ] g. Research! Write and try out the synthesizer variant
+    - Accuracy on dev set: `Correct: 122.0 out of 500.0: 24.4%`
+    - Why might the synthesizer self-attention not be able to do, in a single layer, what the key-query-value self-attention can do ?
+        - [TODO]
+
+## 3. Considerations in pretrained knowledge
+
+[TODO]
