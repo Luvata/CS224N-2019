@@ -91,9 +91,9 @@ class SynthesizerAttention(nn.Module):
         #       How do these map to the matrices in the handout?
 
         B, T, C = x.size()
-        v = self.value(X).view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # B, nh, T, hs
+        v = self.value(x).view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # B, nh, T, hs
 
-        f1 = F.relu(self.w1(X).view(B, T, self.n_head, C // self.n_head)).transpose(1, 2) # B, nh, T, hs
+        f1 = F.relu(self.w1(x).view(B, T, self.n_head, C // self.n_head)).transpose(1, 2) # B, nh, T, hs
         att = f1.dot(self.w2) + self.b2 # B, nh, T, T
 
         att = att.masked_fill(self.mask[:,:,:T,:T] == 0, -1e10) # todo: just use float('-inf') instead?
