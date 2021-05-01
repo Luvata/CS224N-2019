@@ -1,6 +1,12 @@
 # CS224N-2019 and 2021
 
-**Shiny new things**: I've already updated this solution for **2021** (Simplified NMT assignment & new GPT assignment)
+**Shiny new things**: I've already updated this solution for **2021**, this include:
+
+- New word embedding analysis in assignment 1
+- New assignment 5 on pretraining and synthesizer transformer
+- Simplified NMT assignment 4
+
+---
 
 My solutions for CS224N 2019
 
