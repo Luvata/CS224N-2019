@@ -1,4 +1,12 @@
-# CS224N-2019
+# CS224N-2019 and 2021
+
+**Shiny new things**: I've already updated this solution for **2021**, this include:
+
+- New word embedding analysis in assignment 1
+- New assignment 5 on pretraining and synthesizer transformer
+- Simplified NMT assignment 4
+
+---
 
 My solutions for CS224N 2019
 
@@ -6,7 +14,6 @@ My solutions for CS224N 2019
 - Course page [CS224N](http://cs224n.stanford.edu)
 - Lecture videos 2019 [Youtube](https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z)
 - [Stanford online hub](http://onlinehub.stanford.edu/cs224)
-- Final project SQuAD 2.0: [handout](http://web.stanford.edu/class/cs224n/project/default-final-project-handout.pdf), [github](https://github.com/chrischute/squad) repo
 
 ## Misc
 - Install Chrome extention 
